@@ -1,12 +1,12 @@
 ﻿@model ZooMVC.Models.Habitat
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar";
 }
 
-<h2>Edit</h2>
+<h2>Editar</h2>
 
-<h4>Habitat</h4>
+<h4>Hábitat</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -14,34 +14,34 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+                <label asp-for="Name" class="control-label">Nombre</label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Weather" class="control-label"></label>
+                <label asp-for="Weather" class="control-label">Clima</label>
                 <input asp-for="Weather" class="form-control" />
                 <span asp-validation-for="Weather" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Vegetation" class="control-label"></label>
+                <label asp-for="Vegetation" class="control-label">Vegetación</label>
                 <input asp-for="Vegetation" class="form-control" />
                 <span asp-validation-for="Vegetation" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ItineraryId" class="control-label"></label>
+                <label asp-for="ItineraryId" class="control-label">Itinerario</label>
                 <select asp-for="ItineraryId" class="form-control" asp-items="ViewBag.ItineraryId"></select>
                 <span asp-validation-for="ItineraryId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Guardar" class="btn btn-default" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Volver a la lista</a>
 </div>
 
 @section Scripts {

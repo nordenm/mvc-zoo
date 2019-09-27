@@ -35,7 +35,11 @@ namespace ZooMVC.Controllers
 
             var habitat = await _context.Habitat
                 .Include(h => h.Itinerary)
+                .Include(a => a.HabitatsSpecies)
+                .ThenInclude(HabitatSpecies => HabitatSpecies.Specie)
                 .FirstOrDefaultAsync(m => m.Id == id);
+            ViewData["SpecieId"] = new SelectList(_context.Specie, "Id", "FullName");
+
             if (habitat == null)
             {
                 return NotFound();
@@ -47,7 +51,7 @@ namespace ZooMVC.Controllers
         // GET: Habitats/Create
         public IActionResult Create()
         {
-            ViewData["ItineraryId"] = new SelectList(_context.Itinerary, "Id", "Id");
+            ViewData["ItineraryId"] = new SelectList(_context.Itinerary, "Id", "Code");
             return View();
         }
 
@@ -64,8 +68,26 @@ namespace ZooMVC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ItineraryId"] = new SelectList(_context.Itinerary, "Id", "Id", habitat.ItineraryId);
+            ViewData["ItineraryId"] = new SelectList(_context.Itinerary, "Id", "Code", habitat.ItineraryId);
             return View(habitat);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddSpecie(int id, [Bind("SpecieId, Index")] HabitatSpecie habitatspecie)
+        {
+            habitatspecie.HabitatId = id;
+            try
+            {
+                _context.Update(habitatspecie);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw;
+            }
+
+            return RedirectToAction("Details", new { Id = id });
         }
 
         // GET: Habitats/Edit/5
@@ -81,7 +103,7 @@ namespace ZooMVC.Controllers
             {
                 return NotFound();
             }
-            ViewData["ItineraryId"] = new SelectList(_context.Itinerary, "Id", "Id", habitat.ItineraryId);
+            ViewData["ItineraryId"] = new SelectList(_context.Itinerary, "Id", "Code", habitat.ItineraryId);
             return View(habitat);
         }
 
@@ -117,7 +139,7 @@ namespace ZooMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ItineraryId"] = new SelectList(_context.Itinerary, "Id", "Id", habitat.ItineraryId);
+            ViewData["ItineraryId"] = new SelectList(_context.Itinerary, "Id", "Code", habitat.ItineraryId);
             return View(habitat);
         }
 

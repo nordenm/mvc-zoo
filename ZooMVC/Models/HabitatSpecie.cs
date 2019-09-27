@@ -11,7 +11,7 @@ namespace ZooMVC.Models
         public int Index { get; set; }
         public int HabitatId { get; set; }
         public Habitat Habitat { get; set; }
-        public int SpieceId { get; set; }
+        public int SpecieId { get; set; }
         public Specie Specie { get; set; }
     }
 }

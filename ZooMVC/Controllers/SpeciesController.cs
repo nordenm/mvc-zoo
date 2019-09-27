@@ -33,7 +33,11 @@ namespace ZooMVC.Controllers
             }
 
             var specie = await _context.Specie
+                .Include(a => a.HabitatsSpecies)
+                .ThenInclude(HabitatSpecies => HabitatSpecies.Habitat)
                 .FirstOrDefaultAsync(m => m.Id == id);
+            ViewData["HabitatId"] = new SelectList(_context.Habitat, "Id", "Name");
+
             if (specie == null)
             {
                 return NotFound();
@@ -62,6 +66,23 @@ namespace ZooMVC.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(specie);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddHabitat(int id, [Bind("HabitatId, Index")] HabitatSpecie habitatspecie)
+        {
+            habitatspecie.SpecieId = id;
+            try
+            {
+                _context.Update(habitatspecie);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw;
+            }
+            return RedirectToAction("Details", new { Id = id });
         }
 
         // GET: Species/Edit/5

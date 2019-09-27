@@ -33,6 +33,7 @@ namespace ZooMVC.Controllers
             }
 
             var itinerary = await _context.Itinerary
+                .Include(h => h.Habitats)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (itinerary == null)
             {

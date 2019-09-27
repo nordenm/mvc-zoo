@@ -1,13 +1,13 @@
 ﻿@model ZooMVC.Models.Itinerary
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles";
 }
 
-<h2>Details</h2>
+<h2>Detalles</h2>
 
 <div>
-    <h4>Itinerary</h4>
+    <h4>Itinerario</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -37,6 +37,15 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <h4>Hábitats</h4>
+    <hr />
+    @foreach (var h in Model.Habitats)
+    {
+        <li><a asp-controller="Habitats" asp-action="Details" asp-route-id="@h.Id">@h.Name</a></li>
+    }
+    <hr />
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a> |
+    <a asp-action="Index">Volver a la lista</a>
 </div>

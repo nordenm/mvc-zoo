@@ -1,13 +1,13 @@
 ﻿@model ZooMVC.Models.Habitat
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles";
 }
 
-<h2>Details</h2>
+<h2>Detalles</h2>
 
 <div>
-    <h4>Habitat</h4>
+    <h4>Hábitat</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -37,6 +37,29 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <h4>Especies</h4>
+    <hr />
+    @foreach (var c in Model.HabitatsSpecies)
+    {
+        <li><a asp-controller="Species" asp-action="Details" asp-route-id="@c.Specie.Id">@c.Specie.FullName (@c.Index)</a></li>
+    }
+    <hr />
+</div>
+<form asp-action="AddSpecie" asp-route-id="@Model.Id" method="post">
+
+    <div class="form-group">
+        <label class="control-label">Hábitat:</label>
+        <select name="SpecieId" class="form-control" asp-items="ViewBag.SpecieId"></select>
+    </div>
+    <div class="form-group">
+        <label class="control-label">Index:</label>
+        <input type="text" name="Index" class="form-control">
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Añadir" class="btn btn-default" />
+    </div>
+</form>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a> |
+    <a asp-action="Index">Volver a la lista</a>
 </div>
